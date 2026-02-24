@@ -14,7 +14,7 @@ Este proyecto corresponde al desarrollo del backend de una aplicación para la g
 - Git
 
 ## Instalación
-1. Clonar el repositorio git clone <URL_DEL_REPO>
+1. Clonar el repositorio git clone <https://github.com/AnaIcu/HabitosAtomicos_25004137>
 2. Entrar al proyecto cd PROYECTO_25004137
 3. Instalar dependencias: npm install
 4. Crear archivo .env:
