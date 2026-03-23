@@ -14,10 +14,13 @@ Este proyecto corresponde al desarrollo del backend de una aplicación para la g
 - Git
 
 ## Instalación
-1. Clonar el repositorio git clone <https://github.com/AnaIcu/HabitosAtomicos_25004137>
+1. Clonar el repositorio git clone <https://github.com/AnaIcu/HabitosAtomicos_backend_25004137/tree/semana5>
 2. Entrar al proyecto cd PROYECTO_25004137
 3. Instalar dependencias: npm install
 4. Crear archivo .env:
+MONGO_URI=dirección base de datos en Mongo
+PORT=3001
+JWT_SECRET=
 
 ## Ejecutar el proyecto
 npm start
