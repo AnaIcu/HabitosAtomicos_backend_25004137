@@ -12,7 +12,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 var app = express();
 app.use(cors({
-  origin: isProduction 
+  origin: isProduction
   ? "https://habitosatomicos-frontend-25004137.onrender.com"
   : "http://localhost:5173",
   credentials: true
