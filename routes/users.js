@@ -32,13 +32,15 @@ router.post('/login', async function(req, res, next) {
     console.log("USERNAME:", username);
     console.log("PASSWORD:", password);
     const user = await User.findOne({ username });
+
+    console.log("USER FOUND:", user);
     if (!user) return res.status(400).json({ error: "Usuario no encontrado" });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: "Contraseña incorrecta" });
 
     console.log("JWT_SECRET:", process.env.JWT_SECRET);
-    
+
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     const isProduction = process.env.NODE_ENV === 'production';
 
