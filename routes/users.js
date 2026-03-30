@@ -25,55 +25,31 @@ router.post('/register', async function(req, res, next) {
     res.status(500).json({ error: "Error en el registro", "description":error.toString() });
 }
 });
-router.post('/login', async function (req, res) {
+router.post('/login', async function(req, res, next) {
   try {
     const { username, password } = req.body;
 
-    console.log("BODY:", req.body);
-
     const user = await User.findOne({ username });
+    if (!user) return res.status(400).json({ error: "Usuario no encontrado" });
 
-    console.log("USER FOUND:", user);
-
-    if (!user) {
-      return res.status(400).json({ error: "Usuario no encontrado" });
-    }
 
     const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ error: "Contraseña incorrecta" });
 
-    if (!isMatch) {
-      return res.status(400).json({ error: "Contraseña incorrecta" });
-    }
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    const isProduction =
-      process.env.NODE_ENV === 'production' ||
-      process.env.RENDER === 'true';
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const isProduction = process.env.NODE_ENV === 'production';
 
     res.cookie("habitToken", token, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
+      httpOnly: false,
+      secure: true,
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
-
-    return res.json({
-      message: "Inicio de sesión exitoso",
-      token
-    });
-
-  } catch (error) {
-    console.error("LOGIN ERROR:", error);
-
-    return res.status(500).json({
-      error: "Error en el login",
-      description: error.toString()
-    });
-  }
+    
+    res.json({ message: "Inicio de sesión exitoso", token });
+} catch (error) {
+    res.status(500).json({ error: "Error en el login", "description":error.toString() });
+}
 });
 module.exports = router;
