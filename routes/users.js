@@ -36,7 +36,7 @@ router.post('/login', async function(req, res, next) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: "Contraseña incorrecta" });
 
-
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     const isProduction = process.env.NODE_ENV === 'production';
 
