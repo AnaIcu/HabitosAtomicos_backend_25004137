@@ -43,7 +43,7 @@ router.post('/login', async function(req, res, next) {
     res.cookie("habitToken", token, {
       httpOnly: false,
       secure: true,
-      sameSite: isProduction ? 'none' : 'lax',
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
     
